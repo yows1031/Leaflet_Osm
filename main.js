@@ -12,7 +12,7 @@
 
     var tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
         attribution: '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-        maxZoom: 19
+        maxZoom: 21
         });
 tileLayer.addTo(map);
 
@@ -21,28 +21,39 @@ for (var i = 0; i < test_popupContents.length; i++) {
         "type": "Feature",
         "properties": {
         "popupContent": test_popupContents[i],
-        "className": customClassName[i]
+        "className": customClassName[i],
     },
     "geometry": {
       "type": "Point",
       "coordinates": [lon[i], lat[i]] 
-  },
+    },
     });
 
-    // var addCustomClassName = customClassName[i];
+    // var addCustomClassName = {
+    //     'className': 'test'
+    // }
    
 
 }
 
-L.geoJson(geojsonFeature,
-    {
-        onEachFeature: function(feature, layer){
-            if(feature.properties && feature.properties.popupContent){
-                layer.bindPopup(feature.properties.popupContent);
+function customName(layer) {
+    for (var i = 0; i < test_popupContents.length; i++) {
+        console.log(customClassName);
+        return layer.className.customClassName;
+        
+
+    }
+
+}
+    
+    L.geoJson(geojsonFeature,
+        {
+            onEachFeature: function(feature, layer){
+                if(feature.properties && feature.properties.popupContent){
+                    layer.bindPopup(feature.properties.popupContent, {className: feature.properties.className});
+                }
             }
-           
-        }
-    }).addTo(map)
-    $(geoJson.getContainer()).addClass('test');
-  
+        }).addTo(map).openPopup();
+        // popUp.openPopup()
+        console.log('test');
 }
